@@ -7,3 +7,4 @@
 * [存储事件机制](cun-chu-shi-jian-ji-zhi.md)
 * [创建事件存储（Building an Event Storage）](chuang-jian-shi-jian-cun-chu-building-an-event-storage.md)
 * [CQRS与事件源（CQRS and Event Sourcing）](cqrs-yu-shi-jian-yuan-cqrs-and-event-sourcing.md)
+* [关于作者](guan-yu-zuo-zhe.md)
