@@ -5,11 +5,8 @@ icon: '1'
 
 # 典型的架构（A Stereotypical Architecture ）
 
-Before moving into architectures for Domain Driven Design based projects it is important to start off by\
-analyzing what is generally considered to be the standard architecture that many try to apply to\
-projects. We can from that point attempt to improve upon the stereotypical architecture in small\
-rational steps while trying to minimize the cost in terms of productivity for each step towards a better\
-architecture.
+Before moving into architectures for Domain Driven Design based projects it is important to start off by analyzing what is generally considered to be the standard architecture that many try to apply to projects. We can from that point attempt to improve upon the stereotypical architecture in small\
+rational steps while trying to minimize the cost in terms of productivity for each step towards a better architecture.
 
 在深入考虑DDD架构之前，很重要的事情是分析被大部分项目视作并应用的标准架构。我们可以在此基础上，尝试小步改进典型架构，向着更好的架构演进，并最小化对团队生产力的影响。
 
@@ -23,17 +20,13 @@ Below is shown a diagram of a stereotypical architecture.
 
 ### 应用服务 Application Server
 
-The above architecture is centered upon a backing data storage system. This system although typically a RDBMS does not have to be, it could just as easily be a key/value store, and object database, or even\
-plain XML files. The important aspect of the backing store is that it is representing the current state of\
-objects in the domain.
+The above architecture is centered upon a backing data storage system. This system although typically a RDBMS does not have to be, it could just as easily be a key/value store, and object database, or even plain XML files. The important aspect of the backing store is that it is representing the current state of objects in the domain.
 
 上面的架构以后台的存储系统为核心搭建。存储系统没必要是一个典型的RDBMS系统，它可以是一个key-value的存储系统，一个对象存储系统，甚至多个XML都行。存储系统重要的是其代表了领域对象的状态。
 
 > RDBMS（Relational Database Management System，关系型数据库管理系统）是一种基于关系模型管理结构化数据的软件系统，其核心是通过表格形式组织数据，并通过预定义的关系实现不同表之间的逻辑关联。
 
-Above the backing data storage lies an Application Server. An area of logic, labeled as the domain in\
-Figure 1 contains the business logic of the system. In this area validation and orchestration logic exists\
-for the processing of requests given to the Application Server.
+Above the backing data storage lies an Application Server. An area of logic, labeled as the domain in Figure 1 contains the business logic of the system. In this area validation and orchestration logic exists for the processing of requests given to the Application Server.
 
 在后台存储系统更上层的是Application Server 。在图1中被标记为domain的层包含系统的业务逻辑。在domain层中，校验和逻辑编排的目的都是为了处理给Application Server层的请求。
 
@@ -51,24 +44,19 @@ Abstracting the “domain” one will find a facade known as Application Service
 抽象“domain”的时候会发现应用服务（Application Services）是一个“门面[^1]”。应用服务（Application Services）提供了面向领域和依赖领域的数据之间的简单接口，其也减少了领域和领域消费方的耦合。
 
 \
-On the outside of the Application Server sits some type of Remote Facade. This could be many things\
-such as SOAP, custom TCP/IP, XML over HTTP, TomCat, or even a person manually typing messages that arrive tied to the legs of pigeons. The Remote Facade may or may not be abstracted away from its\
-underlying technology mechanism depending on the situation and tools that are involved.
+On the outside of the Application Server sits some type of Remote Facade. This could be many things such as SOAP, custom TCP/IP, XML over HTTP, TomCat, or even a person manually typing messages that arrive tied to the legs of pigeons. The Remote Facade may or may not be abstracted away from its underlying technology mechanism depending on the situation and tools that are involved.
 
 在应用服务（Application Services）之外有很多类型的远程接口（Remote Facade），它们可能是类似于SOAP、定制化的TCP/IP协议，XML服务，TomCat服务器，甚至是绑在🕊鸽子腿上的某些手动输入的信息。远程接口（Remote Facade）可能已经也可能没有被抽象出来，这取决于具体的情况。
 
 \
-The overall usage of an Application Server to abstract away the data storage of a system and to provide\
-a centralized location of business logic has become very popular over the years and at the time of this\
-writing is in many circumstances considered to be the default architecture applied to many systems.
+The overall usage of an Application Server to abstract away the data storage of a system and to provide a centralized location of business logic has become very popular over the years and at the time of this writing is in many circumstances considered to be the default architecture applied to many systems.
 
 应用服务（Application Services）的整体用途是抽象出来系统的数据存储层和内聚业务逻辑（business logic）。这个观点在过去几年变得非常流行，在此刻（原作者写作时）这样的架构已然变成了很多系统的默认架构。
 
 ## 客户端交互 Client Interaction
 
 \
-Interacting with the Application Server there is a / are many client(s). The general interaction of the\
-clients can be seen in Figure 2.1
+Interacting with the Application Server there is a / are many client(s). The general interaction of the clients can be seen in Figure 2.1
 
 会有单个或者多个客户端与应用服务（Application Services）交互。图2.1展示了了一个普遍的客户端交互示意图。
 
@@ -76,10 +64,8 @@ clients can be seen in Figure 2.1
 
 <figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption><p>Figure 2 典型的客户端交互</p></figcaption></figure>
 
-The basic interaction of the client can be described as a DTO (Data Transfer Object) up/down interaction. Going through the lifecycle of an operation is the easiest way to show the functioning of the\
-API. A user goes to a screen, perhaps to edit a customer. The client sends a request to the remote\
-facade for a DTO representing Customer #id. The Remote facade loads up the domain objects required,\
-and maps the domain objects to a DTO that is then returned to the client. An example of DTO in XML format can be seen in Figure 3 but the basic explanation is that the DTO in this stereotypical architecture contains the current state of the object in questions.
+The basic interaction of the client can be described as a DTO (Data Transfer Object) up/down interaction. Going through the lifecycle of an operation is the easiest way to show the functioning of the API. A user goes to a screen, perhaps to edit a customer. The client sends a request to the remote\
+facade for a DTO representing Customer #id. The Remote facade loads up the domain objects required, and maps the domain objects to a DTO that is then returned to the client. An example of DTO in XML format can be seen in Figure 3 but the basic explanation is that the DTO in this stereotypical architecture contains the current state of the object in questions.
 
 客户端的基本交互可以认为是DTO（Data Transfer Object）的上传和下载的交互。想要了解API的功能，最简单的方式就是经历一个操作的全流程（lifecycle）。用户点击屏幕📱，可能是想要编辑「顾客」的信息。客户端向远端接口发送请求以获取可以表示 「顾客#id」的DTO。远端接口加载领域对象，并将领域对应映射成需要返回客户端的DTO。下面代码块（原文称为图3）展示了一个返回的DTO的示例，更关键的是理解在典型架构中，DTO包含传输对象的当前状态。
 
@@ -109,9 +95,7 @@ The processing of a Save on the client will take the data that has been edited b
 在客户端保存的处理过程中，客户端会携带用户刚在屏幕📱上编辑过的数据，将其包装成DTO（通常来说这个DTO与客户端从远端接口中获取的用于给用户展示的DTO是等价的），并返回给应用服务器。
 
 \
-The Application Server receiving the DTO will then start a transaction/session, map the DTO back to the domain objects, allow the domain objects to verify any changes, then save the changes within the\
-domain objects back to the data storage likely through the use of something like an Object Relational\
-Mapper that has the ability to distinguish what has changed in the domain objects and update the data storage accordingly. The Application Server will return to the client either an Acknowledgement (Ack) that the change has been persisted or it will return a series of errors as to why it was unable to persist the changes.
+The Application Server receiving the DTO will then start a transaction/session, map the DTO back to the domain objects, allow the domain objects to verify any changes, then save the changes within the domain objects back to the data storage likely through the use of something like an Object Relational Mapper that has the ability to distinguish what has changed in the domain objects and update the data storage accordingly. The Application Server will return to the client either an Acknowledgement (Ack) that the change has been persisted or it will return a series of errors as to why it was unable to persist the changes.
 
 应用服务器接收到DTO对象之后就会开启一个 事务/会话（session），将DTO重新映射（转换）回领域对象，让领域对象们去校验数据的更改，之后会通过将领域对象转化成持久化对象的方式保存这些修改，领域对象转化成持久化对象是通过一些可以识别出领域对象有哪些修改和对应的数据持久化对象应该有哪些修改的技术，比如说ORM（Object Relational Mapper）。最后，应用服务器会给客户端返回一些信息，要么是让客户端知道更改已经持久化，要么是发送一些错误用于解释为什么没能持久化这些更改。
 
@@ -124,9 +108,7 @@ Mapper that has the ability to distinguish what has changed in the domain object
 2025年04月12日00:13:58 todo 翻译到这了\~
 
 \
-The architecture provided above as with any architecture has many properties. Some of these\
-properties are good under certain scenarios and other properties can be extremely bad in others. As\
-architects we should really be trying to align many of these properties to best fit our needs.
+The architecture provided above as with any architecture has many properties. Some of these properties are good under certain scenarios and other properties can be extremely bad in others. As architects we should really be trying to align many of these properties to best fit our needs.
 
 
 
@@ -135,8 +117,7 @@ architects we should really be trying to align many of these properties to best 
 
 
 \
-When looking at properties it is important to note what the most likely property is for a given\
-architecture becoming popular. In the architecture above the most likely property defining its popularity\
+When looking at properties it is important to note what the most likely property is for a given architecture becoming popular. In the architecture above the most likely property defining its popularity\
 is that it is simple. One could teach a Junior developer how to interact with a system built using this\
 architecture in a very short period of time. Going along with the simplicity, the architecture is\
 completely generic. One could use this architecture on every project. Along with being able to use it on\
