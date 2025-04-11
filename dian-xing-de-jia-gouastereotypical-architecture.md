@@ -188,7 +188,7 @@ tasks by editing data in many parts of the system. A stereotypical example of th
 changing the sex of an employee you must after go edit their health insurance information. This is far\
 worse than the creation of an anemic model, this is the creation of a glorified excel spreadsheet.
 
-
+这段话用来测试gitbook会不会自动同步github
 
 When one looks at the architecture provided above in the context of scaling one will quickly notice that\
 there is a large bottle neck. The bottleneck in terms of scaling is the data storage. When using a RDBMS\
