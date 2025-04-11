@@ -21,7 +21,7 @@ Below is shown a diagram of a stereotypical architecture.
 
 <figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>Figure 1 一个典型的架构图</p></figcaption></figure>
 
-### Application Server
+### 应用服务 Application Server
 
 The above architecture is centered upon a backing data storage system. This system although typically a RDBMS does not have to be, it could just as easily be a key/value store, and object database, or even\
 plain XML files. The important aspect of the backing store is that it is representing the current state of\
@@ -64,7 +64,7 @@ writing is in many circumstances considered to be the default architecture appli
 
 应用服务（Application Services）的整体用途是抽象出来系统的数据存储层和内聚业务逻辑（business logic）。这个观点在过去几年变得非常流行，在此刻（原作者写作时）这样的架构已然变成了很多系统的默认架构。
 
-## Client Interaction
+## 客户端交互 Client Interaction
 
 \
 Interacting with the Application Server there is a / are many client(s). The general interaction of the\
@@ -96,25 +96,124 @@ and maps the domain objects to a DTO that is then returned to the client. An exa
 </Contact>
 ```
 
-The client will then display the information received from the Remote Facade on the screen allowing the\
-user to interact with it. This is very often done utilizing a view model and/or data binding with the view.\
-At some point the user will be complete with the editing of the data on the screen and will through\
-some action cause the UI to “Save” the data. Generally this is implemented through a “Save Button”\
-although some User Interfaces will instead just have you leave the current data which forces a save.
+The client will then display the information received from the Remote Facade on the screen allowing the user to interact with it. This is very often done utilizing a view model and/or data binding with the view.
 
-客户端收到远端响应后会在屏幕上展示用户可以操作的信息。2025年04月08日00:16:20 写到这了
+客户端收到远端接口（Remote Facade）的响应后会在屏幕上展示用户可以交互的信息。大家通常会使用视图模型（view model）和/或数据绑定来完成这一步。
 
+At some point the user will be complete with the editing of the data on the screen and will through some action cause the UI to “Save” the data. Generally this is implemented through a “Save Button” although some User Interfaces will instead just have you leave the current data which forces a save.
 
+在某一时刻，用户将会完成数据编辑操作，并通过某些操作使得用户界面（UI）“保存”数据。一般来说，这一操作是通过“保存按钮”实现的，虽然某些用户接口会再用户离开界面的时候强制保存。
 
-The processing of a Save on the client will take the data that has been edited by the user on the screen,\
-pack it back into a DTO (usually identical to the DTO it requested from the Remote Façade for displaying\
-to the user ). It will then send this DTO back up to the Application Server.\
-The Application Server receiving the DTO will then start a transaction/session, map the DTO back to the\
-domain objects, allow the domain objects to verify any changes, then save the changes within the\
+The processing of a Save on the client will take the data that has been edited by the user on the screen,pack it back into a DTO (usually identical to the DTO it requested from the Remote Façade for displaying to the user ). It will then send this DTO back up to the Application Server.
+
+在客户端保存的处理过程中，客户端会携带用户刚在屏幕📱上编辑过的数据，将其包装成DTO（通常来说这个DTO与客户端从远端接口中获取的用于给用户展示的DTO是等价的），并返回给应用服务器。
+
+\
+The Application Server receiving the DTO will then start a transaction/session, map the DTO back to the domain objects, allow the domain objects to verify any changes, then save the changes within the\
 domain objects back to the data storage likely through the use of something like an Object Relational\
-Mapper that has the ability to distinguish what has changed in the domain objects and update the data\
-storage accordingly. The Application Server will return to the client either an Acknowledgement (Ack)\
-that the change has been persisted or it will return a series of errors as to why it was unable to persist\
-the changes.
+Mapper that has the ability to distinguish what has changed in the domain objects and update the data storage accordingly. The Application Server will return to the client either an Acknowledgement (Ack) that the change has been persisted or it will return a series of errors as to why it was unable to persist the changes.
+
+应用服务器接收到DTO对象之后就会开启一个 事务/会话（session），将DTO重新映射（转换）回领域对象，让领域对象们去校验数据的更改，之后会通过将领域对象转化成持久化对象的方式保存这些修改，领域对象转化成持久化对象是通过一些可以识别出领域对象有哪些修改和对应的数据持久化对象应该有哪些修改的技术，比如说ORM（Object Relational Mapper）。最后，应用服务器会给客户端返回一些信息，要么是让客户端知道更改已经持久化，要么是发送一些错误用于解释为什么没能持久化这些更改。
+
+> **Object Relational Mapper（ORM，对象关系映射器）** 是一种将面向对象编程中的对象与关系型数据库中的表进行映射的技术工具。比如说golang中gorm就是一个很常用的ORM框架。
+
+## 分析典型的架构 Analysis of the Stereotypical Architecture
+
+
+
+2025年04月12日00:13:58 todo 翻译到这了\~
+
+\
+The architecture provided above as with any architecture has many properties. Some of these\
+properties are good under certain scenarios and other properties can be extremely bad in others. As\
+architects we should really be trying to align many of these properties to best fit our needs.
+
+
+
+### Simplicity
+
+
+
+\
+When looking at properties it is important to note what the most likely property is for a given\
+architecture becoming popular. In the architecture above the most likely property defining its popularity\
+is that it is simple. One could teach a Junior developer how to interact with a system built using this\
+architecture in a very short period of time. Going along with the simplicity, the architecture is\
+completely generic. One could use this architecture on every project. Along with being able to use it on\
+every project, because many people are doing it, its likely that if a team brings on a new member the\
+new member will be intimately familiar with the general architecture of their system again lowering on\
+ramp up costs.\
+The combination of these two items allows teams to become extremely adept at applying this\
+architecture and more important it allows them to use it as a default architecture. The thought process\
+of needing to align non-functional requirements really goes away as they know that this architecture will\
+be “good enough” for 80% of the projects that they run into.
+
+
+
+### Tooling
+
+\
+
+
+Many frameworks exist for the optimization of time required to create systems utilizing the architecture\
+provided above. ORM’s are the largest single example as they provide valuable services such as change\
+tracking and transaction management with complex object graphs. Other examples would include the\
+automapping frameworks that map from the domain objects to DTOs on both sides resulting in largely\
+removing the amount of “plumbing code” required to map the DTOs back and forth in the Application\
+Server.\
+Of course there are however also many not-so-good things associated with the architecture provided\
+above. It being that this document is associated with Domain Driven Design the single most important of\
+the not-so-good properties would be that it is impossible to apply Domain Driven Design with the\
+architecture provided.
+
+
+
+### Domain Driven Design
+
+\
+
+
+The application of Domain Driven Design is not possible in the above architecture though many who are\
+“practicing” Domain Driven Design use this architecture. The reasoning for why it is impossible can easily\
+be seen when one looks at how the Ubiquitous Language is represented by the object model.\
+In the architecture above there are only four verbs (and of course synonyms for those four such as edit\
+instead of update). The four verbs are Create, Read, Update, and Delete or CRUD as they are commonly\
+known in the industry. Because the Remote Façade has a data oriented interface the Application\
+Services must necessarily have the same interface.\
+This means that there are no other verbs within the domain. When however one talks with domain\
+experts in an effort to refine an Ubiquitous Language, it is extremely rare that one ends up with a\
+language that is focused on these four verbs.\
+There is a related well-known anti-pattern of domain modeling known as an “Anemic Model”.\
+“The basic symptom of an Anemic Domain Model is that at first blush it looks like the real thing. There\
+are objects, many named after the nouns in the domain space, and these objects are connected with the\
+rich relationships and structure that true domain models have. The catch comes when you look at the\
+behavior, and you realize that there is hardly any behavior on these objects, making them little more\
+than bags of getters and setters. Indeed these models often come with design rules that say that you are\
+not to put any domain logic into the domain objects. Instead there are a set of service objects which\
+capture all of the domain logic. These services live on top of the domain model and use the domain\
+model for data” (Fowler, 2003)\
+The model that is being built in this architecture sounds at first to be an anemic domain model. Because\
+the Application Services map data back and forth to DTO’s the domain objects have little behavior and
+
+are littered with getters and setters to be used in the mapping process. There is a structure to the\
+domain showing how objects relate with one another but ...\
+One cannot even create and Anemic Domain Model with this architecture as then all of the business\
+logic would be in services, here the services themselves are really just mapping DTO’s to domain objects,\
+there is no actual business logic in them. In this case a large amount of business logic is not existing in\
+the domain at all, nor in the Application Server, it may exist on the client but more likely it exists on\
+either pieces of paper in a manual or in the heads of the people using the system.\
+Architectures like the one being viewed tend to come with instructions of how to complete complex\
+tasks by editing data in many parts of the system. A stereotypical example of this would be when\
+changing the sex of an employee you must after go edit their health insurance information. This is far\
+worse than the creation of an anemic model, this is the creation of a glorified excel spreadsheet.
+
+
+
+When one looks at the architecture provided above in the context of scaling one will quickly notice that\
+there is a large bottle neck. The bottleneck in terms of scaling is the data storage. When using a RDBMS\
+as 90%+ currently use this becomes even more of a problem most RDBMS are at this point not\
+horizontally scalable and vertically scaling becomes prohibitively expensive very quickly. It is however\
+also extremely important to remember that most systems do not need to scale and as such scalability is\
+really not a grave issue in all cases.
 
 [^1]: 指的大概是facade pattern： [https://refactoringguru.cn/design-patterns/facade](https://refactoringguru.cn/design-patterns/facade)
