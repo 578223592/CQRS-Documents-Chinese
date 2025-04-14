@@ -102,92 +102,58 @@ The Application Server receiving the DTO will then start a transaction/session, 
 
 ## 分析典型的架构 Analysis of the Stereotypical Architecture
 
-
-
-2025年04月12日00:13:58 todo 翻译到这了 ~
-
  
 The architecture provided above as with any architecture has many properties. Some of these properties are good under certain scenarios and other properties can be extremely bad in others. As architects we should really be trying to align many of these properties to best fit our needs.
 
+上面提供的架构和其他任何架构一样有许多的特性。其中的一些只适用于一些场景而在其他场景表现糟糕。作为架构师，我们应该调整这些特性以最好的满足需求。
 
+### 简单性 Simplicity
 
-### Simplicity
-
-
-
- 
 When looking at properties it is important to note what the most likely property is for a given architecture becoming popular. In the architecture above the most likely property defining its popularity is that it is simple. One could teach a Junior developer how to interact with a system built using this architecture in a very short period of time. Going along with the simplicity, the architecture is completely generic. One could use this architecture on every project. Along with being able to use it on every project, because many people are doing it, its likely that if a team brings on a new member the new member will be intimately familiar with the general architecture of their system again lowering on ramp up costs. 
-The combination of these two items allows teams to become extremely adept at applying this 
-architecture and more important it allows them to use it as a default architecture. The thought process 
-of needing to align non-functional requirements really goes away as they know that this architecture will 
-be “good enough” for 80% of the projects that they run into.
 
+当了解特性时，关注使得特定架构流行起来的关键特性非常重要。对于上面的架构，定义其流行度的最关键的就是它很简单。只需要非常短的时间一个初级开发就可以学会如何与基于这样的架构开发起来的系统交互。由于简单，架构完全通用---可以在任何项目中应用这样的架构。由于架构得到了普遍使用，如果团队来了一个新同学，新同学可以很快的对系统的通用架构熟悉起来，这又降低了学习培训的成本。
 
+The combination of these two items allows teams to become extremely adept at applying this architecture and more important it allows them to use it as a default architecture. The thought process of needing to align non-functional requirements really goes away as they know that this architecture will be “good enough” for 80% of the projects that they run into.
 
-### Tooling
+这两者（简单性和学习成本）的结合让团队对应用这种架构具有很高的适应性，更重要的是，这种架构可以是一种默认架构。由于他们清楚这种架构足以应对80%的项目需求，因此那些需要反复权衡非功能性需求的思考过程也随之消失——他们知道这种方案已经"足够好用"了。
 
- 
+### 工具 Tooling
 
+Many frameworks exist for the optimization of time required to create systems utilizing the architecture provided above. ORM’s are the largest single example as they provide valuable services such as change tracking and transaction management with complex object graphs. Other examples would include the automapping frameworks that map from the domain objects to DTOs on both sides resulting in largely removing the amount of “plumbing code” required to map the DTOs back and forth in the Application Server. 
+Of course there are however also many not-so-good things associated with the architecture provided above. It being that this document is associated with Domain Driven Design the single most important of the not-so-good properties would be that it is impossible to apply Domain Driven Design with the architecture provided.
 
-Many frameworks exist for the optimization of time required to create systems utilizing the architecture 
-provided above. ORM’s are the largest single example as they provide valuable services such as change 
-tracking and transaction management with complex object graphs. Other examples would include the 
-automapping frameworks that map from the domain objects to DTOs on both sides resulting in largely 
-removing the amount of “plumbing code” required to map the DTOs back and forth in the Application 
-Server. 
-Of course there are however also many not-so-good things associated with the architecture provided 
-above. It being that this document is associated with Domain Driven Design the single most important of 
-the not-so-good properties would be that it is impossible to apply Domain Driven Design with the 
-architecture provided.
-
-
+许多现有的框架工程可用于减少创建基于上述架构创建的系统所花费的时间。2025年04月15日00:08:25 todo 翻译到这了。
 
 ### Domain Driven Design
 
- 
 
-
-The application of Domain Driven Design is not possible in the above architecture though many who are 
-“practicing” Domain Driven Design use this architecture. The reasoning for why it is impossible can easily 
-be seen when one looks at how the Ubiquitous Language is represented by the object model. 
-In the architecture above there are only four verbs (and of course synonyms for those four such as edit 
-instead of update). The four verbs are Create, Read, Update, and Delete or CRUD as they are commonly 
-known in the industry. Because the Remote Façade has a data oriented interface the Application 
-Services must necessarily have the same interface. 
-This means that there are no other verbs within the domain. When however one talks with domain 
-experts in an effort to refine an Ubiquitous Language, it is extremely rare that one ends up with a 
-language that is focused on these four verbs. 
+The application of Domain Driven Design is not possible in the above architecture though many who are “practicing” Domain Driven Design use this architecture. The reasoning for why it is impossible can easily be seen when one looks at how the Ubiquitous Language is represented by the object model. 
+In the architecture above there are only four verbs (and of course synonyms for those four such as edit instead of update). The four verbs are Create, Read, Update, and Delete or CRUD as they are commonly known in the industry. Because the Remote Façade has a data oriented interface the Application Services must necessarily have the same interface. 
+This means that there are no other verbs within the domain. When however one talks with domain experts in an effort to refine an Ubiquitous Language, it is extremely rare that one ends up with a language that is focused on these four verbs. 
 There is a related well-known anti-pattern of domain modeling known as an “Anemic Model”. 
-“The basic symptom of an Anemic Domain Model is that at first blush it looks like the real thing. There 
-are objects, many named after the nouns in the domain space, and these objects are connected with the 
-rich relationships and structure that true domain models have. The catch comes when you look at the 
-behavior, and you realize that there is hardly any behavior on these objects, making them little more 
-than bags of getters and setters. Indeed these models often come with design rules that say that you are 
-not to put any domain logic into the domain objects. Instead there are a set of service objects which 
-capture all of the domain logic. These services live on top of the domain model and use the domain 
-model for data” (Fowler, 2003) 
-The model that is being built in this architecture sounds at first to be an anemic domain model. Because 
-the Application Services map data back and forth to DTO’s the domain objects have little behavior and
+“The basic symptom of an Anemic Domain Model is that at first blush it looks like the real thing. There are objects, many named after the nouns in the domain space, and these objects are connected with the rich relationships and structure that true domain models have. The catch comes when you look at the behavior, and you realize that there is hardly any behavior on these objects, making them little more than bags of getters and setters. Indeed these models often come with design rules that say that you are not to put any domain logic into the domain objects. Instead there are a set of service objects which capture all of the domain logic. These services live on top of the domain model and use the domain model for data” (Fowler, 2003) 
 
-are littered with getters and setters to be used in the mapping process. There is a structure to the 
-domain showing how objects relate with one another but ... 
-One cannot even create and Anemic Domain Model with this architecture as then all of the business 
-logic would be in services, here the services themselves are really just mapping DTO’s to domain objects, 
-there is no actual business logic in them. In this case a large amount of business logic is not existing in 
-the domain at all, nor in the Application Server, it may exist on the client but more likely it exists on 
-either pieces of paper in a manual or in the heads of the people using the system. 
-Architectures like the one being viewed tend to come with instructions of how to complete complex 
-tasks by editing data in many parts of the system. A stereotypical example of this would be when 
-changing the sex of an employee you must after go edit their health insurance information. This is far 
-worse than the creation of an anemic model, this is the creation of a glorified excel spreadsheet.
+The model that is being built in this architecture sounds at first to be an anemic domain model. Because the Application Services map data back and forth to DTO’s the domain objects have little behavior and are littered with getters and setters to be used in the mapping process. There is a structure to the domain showing how objects relate with one another but ... 
+One cannot even create and Anemic Domain Model with this architecture as then all of the business logic would be in services, here the services themselves are really just mapping DTO’s to domain objects, there is no actual business logic in them. In this case a large amount of business logic is not existing in the domain at all, nor in the Application Server, it may exist on the client but more likely it exists on either pieces of paper in a manual or in the heads of the people using the system. 
+Architectures like the one being viewed tend to come with instructions of how to complete complex tasks by editing data in many parts of the system. A stereotypical example of this would be when changing the sex of an employee you must after go edit their health insurance information. This is far worse than the creation of an anemic model, this is the creation of a glorified excel spreadsheet.
 
 这段话用来测试gitbook会不会自动同步github
 
-When one looks at the architecture provided above in the context of scaling one will quickly notice that 
-there is a large bottle neck. The bottleneck in terms of scaling is the data storage. When using a RDBMS 
-as 90%+ currently use this becomes even more of a problem most RDBMS are at this point not 
-horizontally scalable and vertically scaling becomes prohibitively expensive very quickly. It is however 
-also extremely important to remember that most systems do not need to scale and as such scalability is 
-really not a grave issue in all cases.
+When one looks at the architecture provided above in the context of scaling one will quickly notice that there is a large bottle neck. The bottleneck in terms of scaling is the data storage. When using a RDBMS as 90%+ currently use this becomes even more of a problem most RDBMS are at this point not horizontally scalable and vertically scaling becomes prohibitively expensive very quickly. It is however also extremely important to remember that most systems do not need to scale and as such scalability is really not a grave issue in all cases.
+
+## Summary 
+
+The DTO up/down architecture employed on many projects is capable of being used for many 
+applications and can offer many benefits in terms of simplicity for teams to work with. It cannot 
+however be used with a Domain Driven Design based project, to attempt so will bring failure to your 
+efforts at applying Domain Driven Design. 
+This architecture does however make a good baseline and the rest of this document will be focused on 
+improving this architecture in incremental steps while attempting to limit or remove cost while adding 
+business value at each additional step. 
+
+Works Cited 
+Fowler, M. (2003, 11 25). MF Bliki: AnemicDomainModel. Retrieved from Bliki: 
+http://martinfowler.com/bliki/anemicdomainmodel
+
 
 [^1]: 指的大概是facade pattern： [https://refactoringguru.cn/design-patterns/facade](https://refactoringguru.cn/design-patterns/facade)
