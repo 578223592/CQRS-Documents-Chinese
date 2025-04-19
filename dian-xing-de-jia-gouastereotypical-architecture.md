@@ -122,37 +122,63 @@ Of course there are however also many not-so-good things associated with the arc
 The application of Domain Driven Design is not possible in the above architecture though many who are “practicing” Domain Driven Design use this architecture. The reasoning for why it is impossible can easily be seen when one looks at how the Ubiquitous Language is represented by the object model.\
 In the architecture above there are only four verbs (and of course synonyms for those four such as edit instead of update). The four verbs are Create, Read, Update, and Delete or CRUD as they are commonly known in the industry. Because the Remote Façade has a data oriented interface the Application Services must necessarily have the same interface.
 
-虽然很多人都使用上述架构“实践”领域驱动设计，但领域驱动设计在上述架构中是不可能实现的。不可能的原因很简单，在于对象模型（object model）是如何表征通用语言（译者：在领域驱动设计中，**对象模型必须严格遵循通用语言**）。在上述架构中只有4个动词（当然，4个动词的同义词也算，比如编辑与更新）。4个动词就是：增删改查，业界常用的说法是CRUD。因为远端接口有数据导向的接口，因此应用服务必须有同样的接口。
+虽然很多人都使用上述架构“实践”领域驱动设计，但领域驱动设计在上述架构中是不可能实现的。不可能的原因很简单，关键点在于对象模型（object model）是如何表征通用语言（译者：在领域驱动设计中，**对象模型必须严格遵循通用语言**）。在上述架构中只有4个动词（当然，4个动词的同义词也算，比如编辑与更新）。4个动词就是：增删改查，也就是业界常说的CRUD。因为远端接口有数据导向的接口，因此应用服务必须有同样的接口。
 
 > 通用语言（Ubiquitous Language）：是领域驱动设计（DDD）中的核心概念，是团队（包括开发人员、领域专家、产品经理等）在业务领域内共享的统一语言，用于精确描述业务概念、规则和流程。
 
 \
 This means that there are no other verbs within the domain. When however one talks with domain experts in an effort to refine an Ubiquitous Language, it is extremely rare that one ends up with a language that is focused on these four verbs.
 
-2025年04月16日01:00:50  todo 到这了
+这就意味着领域内没有其他的动词了。然而，当人们与领域专家交流以精炼统一语言（Ubiquitous Language）时，最终得到的语言很少能完全聚焦于这四个动词。
 
 \
 There is a related well-known anti-pattern of domain modeling known as an “Anemic Model”.\
 “The basic symptom of an Anemic Domain Model is that at first blush it looks like the real thing. There are objects, many named after the nouns in the domain space, and these objects are connected with the rich relationships and structure that true domain models have. The catch comes when you look at the behavior, and you realize that there is hardly any behavior on these objects, making them little more than bags of getters and setters. Indeed these models often come with design rules that say that you are not to put any domain logic into the domain objects. Instead there are a set of service objects which capture all of the domain logic. These services live on top of the domain model and use the domain model for data” (Fowler, 2003)
 
-The model that is being built in this architecture sounds at first to be an anemic domain model. Because the Application Services map data back and forth to DTO’s the domain objects have little behavior and are littered with getters and setters to be used in the mapping process. There is a structure to the domain showing how objects relate with one another but ...\
-One cannot even create and Anemic Domain Model with this architecture as then all of the business logic would be in services, here the services themselves are really just mapping DTO’s to domain objects, there is no actual business logic in them. In this case a large amount of business logic is not existing in the domain at all, nor in the Application Server, it may exist on the client but more likely it exists on either pieces of paper in a manual or in the heads of the people using the system.\
+有一种众所周知的反范式的领域模型，“贫血模型”。“贫血领域模型的基本特征是：乍一看，它们看起来非常像真实的东西。许多对象以对应的领域空间命名，且与真正的领域模型拥有的丰富的关系和结构相关联。但是当你观察他们行为的时候，你就会发现问题，这些对象很难有任何行为，不过就是一堆堆的getter和setter。实际上，这些模型通常伴随着设计规则，这些设计规则表明不能将任何域逻辑放入域对象中。实际上全部的领域逻辑都在service对象中。这些service对象在领域对象之上，只是将领域对象用于数据处理。”--Fowler, 2003。
+
+The model that is being built in this architecture sounds at first to be an anemic domain model. Because the Application Services map data back and forth to DTO’s the domain objects have little behavior and are littered with getters and setters to be used in the mapping process. There is a structure to the domain showing how objects relate with one another but ...
+
+这种架构下的模型乍一看是贫血领域模型。因为应用服务来回映射DTO，领域对象基本没有行为，而且在映射过程中都是使用setter和getter方法。这种结构展示对象之间如何相互关联，但是。。。
+
+\
+One cannot even create and Anemic Domain Model with this architecture as then all of the business logic would be in services, here the services themselves are really just mapping DTO’s to domain objects, there is no actual business logic in them. In this case a large amount of business logic is not existing in the domain at all, nor in the Application Server, it may exist on the client but more likely it exists on either pieces of paper in a manual or in the heads of the people using the system.
+
+你甚至没办法使用这样的架构创建贫血领域模型，因为贫血领域模型全部的业务逻辑都在服务层，而在这，服务层的作用真的只是将DTO映射到领域对象，服务层中没有任何业务逻辑。在这个例子中，大量的业务逻辑压根不在领域中（跟领域毫无关系），也不在应用服务器中，可能存在客户端中，也可能存在手写的某堆纸上，或者是在系统使用人员的心中。
+
+\
 Architectures like the one being viewed tend to come with instructions of how to complete complex tasks by editing data in many parts of the system. A stereotypical example of this would be when changing the sex of an employee you must after go edit their health insurance information. This is far worse than the creation of an anemic model, this is the creation of a glorified excel spreadsheet.
 
-这段话用来测试gitbook会不会自动同步github
+像我们上面看到的架构往往会附带一个指南，用以说明如何在系统不同的地方编辑数据以完成复杂的任务。一个典型的案例是单改变受聘者性别的时候，你必须先编辑他们的健康保险情况。这比贫血模型更糟糕😰，这是一个创建Excel表格的光荣任务。
+
+### 伸缩 Scaling
 
 When one looks at the architecture provided above in the context of scaling one will quickly notice that there is a large bottle neck. The bottleneck in terms of scaling is the data storage. When using a RDBMS as 90%+ currently use this becomes even more of a problem most RDBMS are at this point not horizontally scalable and vertically scaling becomes prohibitively expensive very quickly. It is however also extremely important to remember that most systems do not need to scale and as such scalability is really not a grave issue in all cases.
+
+如果想要伸缩资源，大家很快就会注意到在这样的架构下存在一个巨大的瓶颈。瓶颈就是数据存储。当使用关系型数据库管理系统（RDBMS）时（目前90%以上的场景如此），这一问题会更加突出——大多数RDBMS目前仍无法水平扩展，而垂直扩展的成本会迅速攀升至难以承受的程度。然而，很重要的一点是记住大部分系统不需要伸缩，可伸缩性并非在所有的情况下都是一个严重的问题。
+
+> **horizontally scalable（水平扩展）** 和 **vertically scaling（垂直扩展）:**
+>
+> * **horizontally scalable（水平扩展）：**&#x901A;过增加更多的服务器或节点来分散负载和数据存储，从而提升系统整体容量和性能。也称为“scale-out”。
+> * **vertically scaling（垂直扩展）：**&#x901A;过升级单个服务器的硬件资源（如CPU、内存、存储）来提升性能。也称为“scale-up”
 
 ## Summary
 
 The DTO up/down architecture employed on many projects is capable of being used for many\
 applications and can offer many benefits in terms of simplicity for teams to work with. It cannot\
 however be used with a Domain Driven Design based project, to attempt so will bring failure to your\
-efforts at applying Domain Driven Design.\
+efforts at applying Domain Driven Design.
+
+很多项目中应用DTO上传/下载的架构可以胜任很多应用，对于简化团队协同也很有帮助。然而，这样的架构与领域驱动设计相斥，如果你想尝试的话一定是以失败告终。
+
+\
 This architecture does however make a good baseline and the rest of this document will be focused on\
 improving this architecture in incremental steps while attempting to limit or remove cost while adding\
 business value at each additional step.
 
-Works Cited\
-Fowler, M. (2003, 11 25). MF Bliki: AnemicDomainModel. Retrieved from Bliki:\
-http://martinfowler.com/bliki/anemicdomainmodel
+无论如何，这样的架构是一个很好的基线，本文档的剩余部分会聚焦于一步一步的改进架构，在每一步改进中力求控制或消除成本，同时确保每个新增步骤都能带来业务价值。
+
+## 引用 Works Cited
+
+\
+Fowler, M. (2003, 11 25). MF Bliki: AnemicDomainModel. Retrieved from Bliki: http://martinfowler.com/bliki/anemicdomainmodel
