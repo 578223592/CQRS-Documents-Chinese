@@ -13,7 +13,7 @@ Below is shown a diagram of a stereotypical architecture.
 
 下面展示了一个典型架构图。
 
-<figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>Figure 1 一个典型的架构图</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption><p>Figure 1 一个典型的架构图</p></figcaption></figure>
 
 ### 应用服务 Application Server
 
@@ -52,7 +52,7 @@ Interacting with the Application Server there is a / are many client(s). The gen
 
 会有单个或者多个客户端与应用服务（Application Services）交互。图2.1展示了了一个普遍的客户端交互示意图。
 
-<figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption><p>Figure 2 典型的客户端交互</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Figure 2 典型的客户端交互</p></figcaption></figure>
 
 The basic interaction of the client can be described as a DTO (Data Transfer Object) up/down interaction. Going through the lifecycle of an operation is the easiest way to show the functioning of the API. A user goes to a screen, perhaps to edit a customer. The client sends a request to the remote\
 facade for a DTO representing Customer #id. The Remote facade loads up the domain objects required, and maps the domain objects to a DTO that is then returned to the client. An example of DTO in XML format can be seen in Figure 3 but the basic explanation is that the DTO in this stereotypical architecture contains the current state of the object in questions.
