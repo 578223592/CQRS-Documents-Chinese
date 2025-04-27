@@ -54,6 +54,101 @@ Capturing intent the client interaction is very similar to the DTO up/down metho
 \
 Instead of simply sending the same DTO back up when the user is completed with their action the client needs to send a message to the Application Server telling it to **do something**. It could be to “Complete a Sale”, “Approve a Purchase Order”, “Submit a Loan Application”. Said simply the client needs to send a message to the Application Server to have it complete the task that the user would like to complete. By telling the Application Server what the user would like to do, it is possible to know the intention of the user.
 
-当用户完成某些行为时，客户端需要向应用服务器发送消息让应用服务器**做某些事情**，而不是简单的发送相同的DTO回去。2025年04月27日14:04:18翻译到这了
+当用户完成某些行为时，客户端需要向应用服务器发送消息让应用服务器**做某些事情**，而不是简单的发送相同的DTO回去，比如说：“完成交易”，“同意购买的订单”，“提交贷款申请”。说的简单点，客户端需要发送给应用服务器的消息包含用户想要完成的任务。通过告诉应用服务器用户想要干什么，才可能知道用户的意图。
 
-## Commands
+## 命令 Commands
+
+The method through which the Application Server will be told what to do is through the use of a Command. A command is a simple object with a name of an operation and the data required to perform that operation. Many think of Commands as being Serializable Method Calls. Listing 1 includes the code of a basic command.
+
+告诉应用服务器用户想要干什么的方法就是通过使用命令（Command）。2025年04月27日22:26:13 翻译到这了。
+
+{% code title="Listing 1 A Simple Command" lineNumbers="true" fullWidth="true" %}
+```java
+public class DeactivateInventoryItemCommand {
+ public readonly Guid InventoryItemId;
+ public readononly string Comment;
+ public DeactivateInventoryItemCommand (Guid id, string comment) {
+ InventoryItemId = id;
+ Comment = comment;
+}
+```
+{% endcode %}
+
+As a side note the example in Listing 1 includes the pattern name after the name of the Command. This is\
+a decision that has many positives and negatives both linguistically and operationally. The choice over\
+whether to use a pattern name in a class name is one that should not be taken lightly by a development\
+team
+
+One important aspect of Commands is that they are always in the imperative tense; that is they are\
+telling the Application Server to do something. The linguistics with Commands are important. A situation\
+could for with a disconnected client where something has already happened such as a sale and could\
+want to send up a “SaleOccurred” Command object. When analyzing this, is the domain allowed to say\
+no that this thing did not happen? Placing Commands in the imperative tense linguistically shows that\
+the Application Server is allowed to reject the Command, if it were not allowed to, it would be an Event\
+for more information on this see “Events”.
+
+
+
+Occasionally there exist funny examples of language in English. A perfect example of this would be\
+“Purchase” which can be used either as a verb in the imperative or as a noun describing the result of its\
+usage in the imperative. When dealing with these situations, ensure that the concept being pushed\
+forward represents the imperative of the verb and not the noun. As an example a purchase should be\
+including what to purchase and expecting the domain to possibly fill in some information like when the\
+item was purchased as opposed to sending up a purchase DTO that fully describes the purchase.
+
+
+
+\
+The simple Command in Listing 1 includes two data properties. It includes an Id which represents the\
+InventoryItem it will apply to and it includes a comment as to why the item is being deactivated. The\
+comment is quite typical of an attribute associated with a Command, it is a piece of data that is required\
+in order to process the behavior. There should only exist on a Command data points that are required to\
+process the given behavior. This contrasts greatly with the typical architecture where the entire data of\
+the object is passed back to the Application Server.
+
+
+
+Most importantly of the data is the Id of the associated inventory item. At least one Id must exist for all\
+commands that are updating state in some way, as all commands are intended to be routed to an\
+object. When issuing a Create Command it is not necessary though valuable to include an Id. Having the\
+client originate Ids normally in the form of UUIDs is extremely valuable in distributed systems.
+
+It is quite common for developers to learn about Commands and to very quickly start creating\
+Commands using vocabulary familiar to them such as “ChangeAddress”, “CreateUser”, or “DeleteClass”.\
+This should be avoided as a default. Instead a team should be focused on what the use case really is.
+
+
+
+\
+Is it “ChangeAddress”? Is there a difference between “Correcting an Address” and “Relocating the\
+Customer”? It likely will be if the domain in question is for a telephone company that sends the yellow\
+pages to a customer when they move to a new location.
+
+
+
+\
+Is it “CreateUser” or is it “RegisterUser”? “DeleteClass” or “DeregisterStudent”. This process in naming\
+can lead to great amounts of domain insight. To begin defining Commands, the best place to begin is in\
+defining use cases, as generally a Command and a use case align.
+
+
+
+It is also important to note that sometimes the only use case that exists for a portion of data is to\
+“create”, “edit”, “update”, “change”, or “delete” it. All applications carry information that is simply\
+supporting information. It is important though to not fall into the trap of mistaking places where there\
+are use cases associated with intent for these CRUD only places.
+
+
+
+\
+Commands as a concept are not difficult but are different for many developers. Many developers see\
+the creation of the Commands as a lot of work. If the creation of Commands is a bottleneck in the\
+workflow, many of the ideas being discussed are likely being applied in an incorrect location.
+
+\
+
+
+## User Interface
+
+
+
