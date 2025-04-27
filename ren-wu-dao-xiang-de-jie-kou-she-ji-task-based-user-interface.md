@@ -41,18 +41,19 @@ The basic explanation of the operation is that the UI will request a DTO, say fo
 \
 As discussed the intention of the user is being lost because a DTO is being sent up that just represents the current state of the object after the client’s actions are completed. It is possible to bring forward the intention of the user; this will allow the Application Server to process behaviors as opposed to saving data. Figure shows an interaction capturing intent.
 
-2025年04月26日20:35:23 翻译到这里 todo
+之前已经讨论过用户意图丢失的问题，其原因在于DTO对象只能代表客户端行为完成后的状态。我们可以提前获取用户意图，这使得应用服务器可以处理行为而非直接保存数据。图片展示了获取用户意图的交互过程。
 
 
 
 <figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>Figure 5 Behavioral Interface</p></figcaption></figure>
 
-Capturing intent the client interaction is very similar to the DTO up/down methodology in terms of\
-interactions. The client first quests a DTO from the Application Server for instance Customer 1234. The Application Server returns a DTO representing the customer that is then shown on the screen for the user to interact with usually either directly or through a View Model. The similarities however stop at this point.
+Capturing intent the client interaction is very similar to the DTO up/down methodology in terms of interactions. The client first quests a DTO from the Application Server for instance Customer 1234. The Application Server returns a DTO representing the customer that is then shown on the screen for the user to interact with usually either directly or through a View Model. The similarities however stop at this point.
 
-
+就交互方式而言，获取用户意图与直接DTO上传下载的方法很相似。客户端首先从应用服务器为顾客1234获取一个DTO对象，应用服务器返回一个DTO供用户直接或间接的通过视图模型交互。之后的过程就不相同了。
 
 \
 Instead of simply sending the same DTO back up when the user is completed with their action the client needs to send a message to the Application Server telling it to **do something**. It could be to “Complete a Sale”, “Approve a Purchase Order”, “Submit a Loan Application”. Said simply the client needs to send a message to the Application Server to have it complete the task that the user would like to complete. By telling the Application Server what the user would like to do, it is possible to know the intention of the user.
+
+当用户完成某些行为时，客户端需要向应用服务器发送消息让应用服务器**做某些事情**，而不是简单的发送相同的DTO回去。2025年04月27日14:04:18翻译到这了
 
 ## Commands
