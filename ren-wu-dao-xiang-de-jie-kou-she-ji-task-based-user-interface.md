@@ -60,7 +60,7 @@ Instead of simply sending the same DTO back up when the user is completed with t
 
 The method through which the Application Server will be told what to do is through the use of a Command. A command is a simple object with a name of an operation and the data required to perform that operation. Many think of Commands as being Serializable Method Calls. Listing 1 includes the code of a basic command.
 
-告诉应用服务器用户想要干什么的方法就是通过使用命令（Command）。2025年04月27日22:26:13 翻译到这了。
+告知应用服务器需要干什么是通过命令（Command）。命令是一个简单的拥有操作名和执行操作所需数据的对象。许多人认为命令是可序列化的方法调用。下面的List 1是一个基础命令的代码。
 
 {% code title="Listing 1 A Simple Command" lineNumbers="true" fullWidth="true" %}
 ```java
@@ -74,10 +74,13 @@ public class DeactivateInventoryItemCommand {
 ```
 {% endcode %}
 
-As a side note the example in Listing 1 includes the pattern name after the name of the Command. This is\
-a decision that has many positives and negatives both linguistically and operationally. The choice over\
+As a side note the example in Listing 1 includes the pattern name after the name of the Command. This is a decision that has many positives and negatives both linguistically and operationally. The choice over\
 whether to use a pattern name in a class name is one that should not be taken lightly by a development\
-team
+team.
+
+2025年05月06日14:01:16写到这了
+
+
 
 One important aspect of Commands is that they are always in the imperative tense; that is they are\
 telling the Application Server to do something. The linguistics with Commands are important. A situation\
