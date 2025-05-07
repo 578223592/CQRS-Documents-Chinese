@@ -74,40 +74,27 @@ public class DeactivateInventoryItemCommand {
 ```
 {% endcode %}
 
-As a side note the example in Listing 1 includes the pattern name after the name of the Command. This is a decision that has many positives and negatives both linguistically and operationally. The choice over\
-whether to use a pattern name in a class name is one that should not be taken lightly by a development\
-team.
+As a side note the example in Listing 1 includes the pattern name after the name of the Command. This is a decision that has many positives and negatives both linguistically and operationally. The choice over whether to use a pattern name in a class name is one that should not be taken lightly by a development team.
 
-2025年05月06日14:01:16写到这了
+顺便提一下，在Listing 1中，在命令名称（Command）后包含了模式名称。这样的做法在语言和操作层面上均有正面或者负面的影响。是否在类中使用模式名称对开发团队来说不应该轻率的做出选择。
+
+> 个人理解：命令名称指的是具体操作，比如：`DeactivateInventoryItem` ，模式名称指的是`Command` 。`Command`是模式名称的原因是一共有两种模式C（Command）和Q（Query）。
 
 
 
-One important aspect of Commands is that they are always in the imperative tense; that is they are\
-telling the Application Server to do something. The linguistics with Commands are important. A situation\
-could for with a disconnected client where something has already happened such as a sale and could\
-want to send up a “SaleOccurred” Command object. When analyzing this, is the domain allowed to say\
-no that this thing did not happen? Placing Commands in the imperative tense linguistically shows that\
-the Application Server is allowed to reject the Command, if it were not allowed to, it would be an Event\
-for more information on this see “Events”.
+One important aspect of Commands is that they are always in the imperative tense; that is they are telling the Application Server to do something. The linguistics with Commands are important. A situation could for with a disconnected client where something has already happened such as a sale and could want to send up a “SaleOccurred” Command object. When analyzing this, is the domain allowed to say no that this thing did not happen? Placing Commands in the imperative tense linguistically shows that the Application Server is allowed to reject the Command, if it were not allowed to, it would be an Event for more information on this see “Events”.
+
+Commands的一个重要的方面是它们经常是祈使语气，即它们告诉、要求应用服务器完成某些事情。命令的语言非常重要。存在这么一种场景，断连的服务器在某些事比如售卖已经发生的时候向发送“售卖”（SaleOccurred）命令。领域（domain）是否允许拒绝没有发生的事情呢？命令（Commands）使用祈使语气表明应用服务器可以拒绝命令（Commands），在不允许执行的情况下，则其就是一个事件（Event），更多信息可以参考“Events”。
 
 
 
 Occasionally there exist funny examples of language in English. A perfect example of this would be\
-“Purchase” which can be used either as a verb in the imperative or as a noun describing the result of its\
-usage in the imperative. When dealing with these situations, ensure that the concept being pushed\
-forward represents the imperative of the verb and not the noun. As an example a purchase should be\
-including what to purchase and expecting the domain to possibly fill in some information like when the\
-item was purchased as opposed to sending up a purchase DTO that fully describes the purchase.
+“Purchase” which can be used either as a verb in the imperative or as a noun describing the result of its usage in the imperative. When dealing with these situations, ensure that the concept being pushed forward represents the imperative of the verb and not the noun. As an example a purchase should be including what to purchase and expecting the domain to possibly fill in some information like when the item was purchased as opposed to sending up a purchase DTO that fully describes the purchase.
 
-
+2025年05月07日13:49:05 写到这了。
 
 \
-The simple Command in Listing 1 includes two data properties. It includes an Id which represents the\
-InventoryItem it will apply to and it includes a comment as to why the item is being deactivated. The\
-comment is quite typical of an attribute associated with a Command, it is a piece of data that is required\
-in order to process the behavior. There should only exist on a Command data points that are required to\
-process the given behavior. This contrasts greatly with the typical architecture where the entire data of\
-the object is passed back to the Application Server.
+The simple Command in Listing 1 includes two data properties. It includes an Id which represents the InventoryItem it will apply to and it includes a comment as to why the item is being deactivated. The comment is quite typical of an attribute associated with a Command, it is a piece of data that is required in order to process the behavior. There should only exist on a Command data points that are required to process the given behavior. This contrasts greatly with the typical architecture where the entire data of the object is passed back to the Application Server.
 
 
 
