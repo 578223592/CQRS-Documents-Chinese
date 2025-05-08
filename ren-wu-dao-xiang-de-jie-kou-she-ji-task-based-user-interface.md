@@ -91,12 +91,14 @@ Commands的一个重要的方面是它们经常是祈使语气，即它们告诉
 Occasionally there exist funny examples of language in English. A perfect example of this would be\
 “Purchase” which can be used either as a verb in the imperative or as a noun describing the result of its usage in the imperative. When dealing with these situations, ensure that the concept being pushed forward represents the imperative of the verb and not the noun. As an example a purchase should be including what to purchase and expecting the domain to possibly fill in some information like when the item was purchased as opposed to sending up a purchase DTO that fully describes the purchase.
 
-2025年05月07日13:49:05 写到这了。
+英语中存在一些有趣的语言例子。一个完美的例子是“Purchase”，这个单次可以用作祈使语句的动词，也可以用作描述结果的名词。当处理这种既有动词语义也有名词语义的场景时，保证传递的是动词的语义而非名词的语义。还是刚才那个例子，一次”purchase“应该明确要购买的东西的信息并期望领域填充的部分可能的信息，比如商品购买的时间，而不是发送详细描述购买过程的DTO（名词形式的DTO）。
+
+> 作者强调在软件设计中应遵循"**动词优先于名词**"的原则、且**避免过度封装（**&#x5BA2;户端只需提供必要参数（如商品信息），系统自动生成元数据（如时间戳））。
 
 \
 The simple Command in Listing 1 includes two data properties. It includes an Id which represents the InventoryItem it will apply to and it includes a comment as to why the item is being deactivated. The comment is quite typical of an attribute associated with a Command, it is a piece of data that is required in order to process the behavior. There should only exist on a Command data points that are required to process the given behavior. This contrasts greatly with the typical architecture where the entire data of the object is passed back to the Application Server.
 
-
+2025年05月08日14:07:24 到这里了
 
 Most importantly of the data is the Id of the associated inventory item. At least one Id must exist for all\
 commands that are updating state in some way, as all commands are intended to be routed to an\
