@@ -98,15 +98,18 @@ Occasionally there exist funny examples of language in English. A perfect exampl
 \
 The simple Command in Listing 1 includes two data properties. It includes an Id which represents the InventoryItem it will apply to and it includes a comment as to why the item is being deactivated. The comment is quite typical of an attribute associated with a Command, it is a piece of data that is required in order to process the behavior. There should only exist on a Command data points that are required to process the given behavior. This contrasts greatly with the typical architecture where the entire data of the object is passed back to the Application Server.
 
-2025年05月08日14:07:24 到这里了
+Listing 1 中的A Simple Command包含两个数据属性：包含一个id，用于代表其操作的目标，包含一个评论（comments）属性，用于表明为什么目标要被这么操作。评论是一个典型的与Command关联的属性，其是处理相关行为所需的一块数据。在一个命令中，应该只存在处理给定行为所需要的数据点。这与典型的架构有很大的不同，在典型架构中，对象的全部数据都会被传递回应用服务器。
+
+2025年05月12日14:02:15 写到这了
 
 Most importantly of the data is the Id of the associated inventory item. At least one Id must exist for all\
 commands that are updating state in some way, as all commands are intended to be routed to an\
 object. When issuing a Create Command it is not necessary though valuable to include an Id. Having the\
 client originate Ids normally in the form of UUIDs is extremely valuable in distributed systems.
 
-It is quite common for developers to learn about Commands and to very quickly start creating\
-Commands using vocabulary familiar to them such as “ChangeAddress”, “CreateUser”, or “DeleteClass”.\
+
+
+It is quite common for developers to learn about Commands and to very quickly start creating Commands using vocabulary familiar to them such as “ChangeAddress”, “CreateUser”, or “DeleteClass”.\
 This should be avoided as a default. Instead a team should be focused on what the use case really is.
 
 
