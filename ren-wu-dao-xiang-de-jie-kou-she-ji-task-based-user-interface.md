@@ -98,28 +98,25 @@ Occasionally there exist funny examples of language in English. A perfect exampl
 \
 The simple Command in Listing 1 includes two data properties. It includes an Id which represents the InventoryItem it will apply to and it includes a comment as to why the item is being deactivated. The comment is quite typical of an attribute associated with a Command, it is a piece of data that is required in order to process the behavior. There should only exist on a Command data points that are required to process the given behavior. This contrasts greatly with the typical architecture where the entire data of the object is passed back to the Application Server.
 
-Listing 1 中的A Simple Command包含两个数据属性：包含一个id，用于代表其操作的目标，包含一个评论（comments）属性，用于表明为什么目标要被这么操作。评论是一个典型的与Command关联的属性，其是处理相关行为所需的一块数据。在一个命令中，应该只存在处理给定行为所需要的数据点。这与典型的架构有很大的不同，在典型架构中，对象的全部数据都会被传递回应用服务器。
-
-2025年05月12日14:02:15 写到这了
+Listing 1 中的A Simple Command包含两个数据属性：包含一个id，用于代表其操作的目标，包含一个评论（comments）属性，用于表明为什么目标要被这么操作。评论是一个典型的与Command关联的属性，其是处理相关行为所需的一块数据。在一个命令中，应该只存在处理给定行为所需要的数据。这与典型的架构有很大的不同，在典型架构中，对象的全部数据都会被传递回应用服务器。
 
 Most importantly of the data is the Id of the associated inventory item. At least one Id must exist for all\
 commands that are updating state in some way, as all commands are intended to be routed to an\
 object. When issuing a Create Command it is not necessary though valuable to include an Id. Having the\
 client originate Ids normally in the form of UUIDs is extremely valuable in distributed systems.
 
+数据中最重要的是其关联的事项的ID。所有以某种方式更新状态的命令都必须至少有一个 ID，因为所有命令都旨在路由到某个对象。当处理创建命令的时候，ID不是必须的。在分布式系统中，客户端正常的以UUID的形式发起命令是非常有价值的。
 
+It is quite common for developers to learn about Commands and to very quickly start creating Commands using vocabulary familiar to them such as “ChangeAddress”, “CreateUser”, or “DeleteClass”. This should be avoided as a default. Instead a team should be focused on what the use case really is.
 
-It is quite common for developers to learn about Commands and to very quickly start creating Commands using vocabulary familiar to them such as “ChangeAddress”, “CreateUser”, or “DeleteClass”.\
-This should be avoided as a default. Instead a team should be focused on what the use case really is.
-
-
+开发人员学习命令后，通常会很快地使用他们熟悉的词汇（例如“ChangeAddress”、“CreateUser”或“DeleteClass”）来创建命令。应该避免这种情况，相反，团队应该专注于用例的真正含义。
 
 \
 Is it “ChangeAddress”? Is there a difference between “Correcting an Address” and “Relocating the\
 Customer”? It likely will be if the domain in question is for a telephone company that sends the yellow\
 pages to a customer when they move to a new location.
 
-
+2025年05月15日14:02:15 写到这了。
 
 \
 Is it “CreateUser” or is it “RegisterUser”? “DeleteClass” or “DeregisterStudent”. This process in naming\
