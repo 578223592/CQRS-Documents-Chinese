@@ -30,7 +30,7 @@ One way of dealing with this issue is to move away from the DTO up/down architec
 
 一个应对该问题的方式是远离“典型的架构”这样的DTO上传和下载的架构，即Figure 1展示的那样。
 
-> 这里再把图1捞出来：<img src=".gitbook/assets/image (1).png" alt="" data-size="original">
+> 这里再把图1捞出来：<img src=".gitbook/assets/image (1) (1).png" alt="" data-size="original">
 
 <figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption><p>Figure 4 Interaction in a DTO Up/Down Architecture</p></figcaption></figure>
 
@@ -45,7 +45,7 @@ As discussed the intention of the user is being lost because a DTO is being sent
 
 
 
-<figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>Figure 5 Behavioral Interface</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption><p>Figure 5 Behavioral Interface</p></figcaption></figure>
 
 Capturing intent the client interaction is very similar to the DTO up/down methodology in terms of interactions. The client first quests a DTO from the Application Server for instance Customer 1234. The Application Server returns a DTO representing the customer that is then shown on the screen for the user to interact with usually either directly or through a View Model. The similarities however stop at this point.
 
@@ -109,28 +109,28 @@ client originate Ids normally in the form of UUIDs is extremely valuable in dist
 
 It is quite common for developers to learn about Commands and to very quickly start creating Commands using vocabulary familiar to them such as “ChangeAddress”, “CreateUser”, or “DeleteClass”. This should be avoided as a default. Instead a team should be focused on what the use case really is.
 
-开发人员学习命令后，通常会很快地使用他们熟悉的词汇（例如“ChangeAddress”、“CreateUser”或“DeleteClass”）来创建命令。应该避免这种情况，相反，团队应该专注于用例的真正含义。
+开发人员学习命令后，通常会很快地使用他们熟悉的词汇（例如“修改地址（ChangeAddress）”、“CreateUser”或“DeleteClass”）来创建命令。应该避免这种情况，相反，团队应该专注于用例的真正含义。
 
 \
 Is it “ChangeAddress”? Is there a difference between “Correcting an Address” and “Relocating the\
 Customer”? It likely will be if the domain in question is for a telephone company that sends the yellow\
 pages to a customer when they move to a new location.
 
-2025年05月15日14:02:15 写到这了。
+确定是“修改地址（ChangeAddress）”吗？“更正地址（Correcting an Address）” 和 “重定位用户（Relocating the Customer）”之间是否有区别？当问题的领域涉及到电话销售公司时，两者确实存在区别：当顾客搬家到新位置时，电话销售公司会向顾客发送新的黄页。
 
 \
 Is it “CreateUser” or is it “RegisterUser”? “DeleteClass” or “DeregisterStudent”. This process in naming\
 can lead to great amounts of domain insight. To begin defining Commands, the best place to begin is in\
 defining use cases, as generally a Command and a use case align.
 
-
+是“创建用户”还是“登记用户”？“删除班级”还是“注销学生”。其处理过程的名字会带来巨量的领域洞察。在开始定义Commands之前，最好的方式是定义用例，因为Command通常和用例是保持一致的。
 
 It is also important to note that sometimes the only use case that exists for a portion of data is to\
 “create”, “edit”, “update”, “change”, or “delete” it. All applications carry information that is simply\
 supporting information. It is important though to not fall into the trap of mistaking places where there\
 are use cases associated with intent for these CRUD only places.
 
-
+2025年05月21日13:53:33 到这里了
 
 \
 Commands as a concept are not difficult but are different for many developers. Many developers see\
@@ -141,6 +141,69 @@ workflow, many of the ideas being discussed are likely being applied in an incor
 
 
 ## User Interface
+
+
+
+In order to build up Commands the User Interface will generally work a bit differently than in a DTO\
+up/down system. Because the UI must build Command objects it needs to be designed in such a way\
+that the user intent can be derived from the actions of the user.
+
+
+
+\
+The way to solve this is to lean more towards a “Task Based User Interface” also known as an “Inductive\
+User Interface” in the Microsoft world. This style of UI is not by any means new and offers a quite\
+different perspective on the design of user interfaces. Microsoft identified three major problems with\
+Deductive UIs when researching Inductive UIs.
+
+
+
+
+
+**Users don't seem to construct an adequate mental model of the product.** The interface design for most\
+current software products assumes that users will understand a conceptual model that the designers\
+carefully crafted. Unfortunately, most users don't seem to ever acquire a mental model that is thorough\
+and accurate enough to guide their navigation. These users aren't dumb — they are just very busy and\
+overloaded with information. They do not have the time, energy, or desire to wonder about a conceptual\
+model for their software.
+
+\
+**Even many long-time users never master common procedures.** Designers know that new users may\
+have trouble at first, but expect these problems to vanish as users learn common tasks. Usability data\
+indicates this often doesn't happen. In one study, researchers set up automated equipment to videotape\
+users at home. The tapes showed that users focusing on the task at hand do not necessarily notice the\
+procedure they are following and do not learn from the experience. The next time users perform the\
+same operation, they may stumble through it in exactly the same way.
+
+
+
+**Users must work hard to figure out each feature or screen.** Most software products are designed for\
+(the few) users who understand its conceptual model and have mastered common procedures. For the\
+majority of customers, each feature or procedure is a frustrating, unwanted puzzle. Users might assume\
+these puzzles are an unavoidable cost of using computers, but they would certainly be happier without\
+this burden. (Microsoft Corporation, 2001)
+
+
+
+The basic idea behind a Task Based or Inductive UI is that its important to figure out how the users want\
+to use the software and to make it guide them through those processes.
+
+\
+Many commercial software applications include user interfaces in which a screen presents a set of\
+controls, but leaves it to the user to deduce the page's purpose and how to use the controls to\
+accomplish that purpose. (Microsoft Corporation, 2001)
+
+\
+The goal is to guide the user through the process. An example of the differences can be seen in the\
+DeactivateInventoryItem example previously shown. A typical deductive UI might have an editable data\
+grid containing all of the inventory items. It would have editable fields for various data and perhaps a\
+drop down for the status of the inventory item, deactivated being one of them. In order to deactivate an\
+inventory item the user would have to go to the item in the grid, type in a comment as to why they were\
+deactivating it and then change the drop down to the status of deactivated. A similar example could be\
+where you click to a screen to edit an inventory item but go through the same process as seen in Figure\
+3\.
+
+<figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>Figure 6 A CRUD screen for an Inventory Item</p></figcaption></figure>
 
 
 
